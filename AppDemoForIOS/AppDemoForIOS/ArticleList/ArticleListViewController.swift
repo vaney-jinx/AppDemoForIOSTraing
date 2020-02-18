@@ -14,7 +14,6 @@ class ArticleListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         articleList = getArticleList();
-        print(articleList)
         self.tableView.reloadData();
         
     }
@@ -53,10 +52,8 @@ class ArticleListViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ArticleDetailId"{
         let detail:ArticleDetailController = segue.destination as! ArticleDetailController
-            print(tableView.indexPathForSelectedRow!.row)
             let curArticle = articleList[tableView.indexPathForSelectedRow!.row];
             detail.articleDetail = curArticle.contenDetail;
-            print(curArticle);
         }
     }
     
@@ -83,7 +80,13 @@ class ArticleListViewController: UITableViewController {
                             let detailItem = articleItem["contentDetail"] as! NSDictionary;
                             let newDetail = ContentDetail();
                             newDetail.author = detailItem["author"] as? String;
-                            newDetail.bodySection = detailItem["bodySection"] as? [String];
+                            guard let bodySection = detailItem["bodySection"] as? [String] else { return [] };
+                            var newBodySections: [ContentParagraph] = [];
+                            for innerItem in bodySection {
+                                let newObj = ContentParagraph.init(content: innerItem);
+                                newBodySections.append(newObj);
+                            }
+                            newDetail.bodySection = newBodySections;
                             newDetail.datePublished = detailItem["datePublished"] as? String;
                             newDetail.headline = detailItem["headline"] as? String;
                             newDetail.teaser = detailItem["teaser"] as? String;
