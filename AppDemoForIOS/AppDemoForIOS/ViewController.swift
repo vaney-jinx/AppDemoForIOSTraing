@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  AppDemoForIOS
+//  AppDemo
 //
-//  Created by GuoLiang on 2020/2/18.
+//  Created by GuoLiang on 2020/1/20.
 //  Copyright © 2020 scan. All rights reserved.
 //
 
